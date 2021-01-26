@@ -1,0 +1,12 @@
+<rasty specificationClass="Lucio\UI\layouts\LucioMetroLayout" templateLocation="LucioMetroLayout.htm">
+
+	<param name="menuGroups" value="menuGroups" />
+
+	<component id="header" type="HeaderNavMetro">
+		<param name="pageMenuGroups" value="menuGroups" />
+	</component>
+
+	<component id="footer" type="FooterLucio">
+	</component>
+
+</rasty>

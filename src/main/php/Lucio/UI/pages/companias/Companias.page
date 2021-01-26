@@ -1,0 +1,13 @@
+<rasty specificationClass="Lucio\UI\pages\companias\Companias" templateLocation="pages/companias/Companias.htm">
+
+	<param name="layoutType" value="str:LucioMetroLayout" />
+
+	<component id="companiasFilter" type="CompaniaFilter">
+		<param name="gridModelClazz" value="modelClazz" />
+		<param name="uicriteriaClazz" value="uicriteriaClazz" />
+		<param name="legend" value="msg:compania.buscar" />
+		<param name="legendAgain" value="msg:compania.buscar.again" />
+		<param name="resultDiv" value="str:searchdiv" />
+	</component>
+
+</rasty>

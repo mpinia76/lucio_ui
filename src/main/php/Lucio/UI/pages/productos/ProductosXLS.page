@@ -1,0 +1,12 @@
+<rasty specificationClass="Lucio\UI\pages\productos\ProductosXLS" templateLocation="pages/productos/ProductosXLS.htm">
+
+	<param name="layoutType" value="str:LucioXLSLayout" />
+
+
+
+
+	 <component id="productosXLS" type="ProductosXLS">
+
+	</component>
+
+</rasty>

@@ -1,0 +1,114 @@
+<rasty specificationClass="Lucio\UI\components\form\compania\CompaniaForm" templateLocation="CompaniaForm.htm">
+
+	<param name="error" value="get:error" />
+
+
+
+	<component id="backSuccess" type="InputHidden">
+		<param name="inputId" value="str:backToOnSuccess" />
+		<param name="name" value="str:backToOnSuccess" />
+		<param name="value" value="backToOnSuccess" />
+	</component>
+
+	<component id="oid" type="InputHidden">
+		<param name="inputId" value="str:oid" />
+		<param name="name" value="str:oid" />
+		<param name="value" value="compania.oid" />
+	</component>
+
+
+	<component id="nombre" type="InputText">
+		<param name="inputId" value="str:nombre" />
+		<param name="name" value="str:nombre" />
+		<param name="value" value="compania.nombre" />
+		<param name="requiredMessage" value="msg:compania.nombre.required" />
+		<param name="placeholder" value="msg:compania.nombre" />
+		<param name="autocomplete" value="str:off" />
+
+	</component>
+
+
+
+	<component id="razonSocial" type="InputText">
+		<param name="inputId" value="str:razonSocial" />
+		<param name="name" value="str:razonSocial" />
+		<param name="value" value="compania.razonSocial" />
+		<param name="requiredMessage" value="msg:compania.razonSocial.required" />
+		<param name="placeholder" value="msg:compania.razonSocial" />
+		<param name="autocomplete" value="str:off" />
+
+	</component>
+
+
+	<component id="cbu" type="InputText">
+		<param name="inputId" value="str:cbu" />
+		<param name="name" value="str:cbu" />
+		<param name="value" value="compania.cbu" />
+		<param name="placeholder" value="msg:compania.cbu" />
+	</component>
+
+	<component id="cuit" type="InputText">
+		<param name="inputId" value="str:cuit" />
+		<param name="name" value="str:cuit" />
+		<param name="value" value="compania.cuit" />
+		<param name="placeholder" value="msg:compania.cuit" />
+	</component>
+
+
+
+	<component id="telefono" type="InputText">
+		<param name="inputId" value="str:telefono" />
+		<param name="name" value="str:telefono" />
+		<param name="value" value="compania.telefono" />
+		<param name="placeholder" value="msg:compania.telefono" />
+	</component>
+
+	<component id="celular" type="InputText">
+		<param name="inputId" value="str:celular" />
+		<param name="name" value="str:celular" />
+		<param name="value" value="compania.celular" />
+		<param name="placeholder" value="msg:compania.celular" />
+	</component>
+
+	<component id="laboral" type="InputText">
+		<param name="inputId" value="str:laboral" />
+		<param name="name" value="str:laboral" />
+		<param name="value" value="compania.laboral" />
+		<param name="placeholder" value="msg:compania.laboral" />
+	</component>
+
+	<component id="mail" type="InputText">
+		<param name="inputId" value="str:mail" />
+		<param name="name" value="str:mail" />
+		<param name="value" value="compania.mail" />
+		<param name="placeholder" value="msg:compania.mail" />
+	</component>
+
+	<component id="direccion" type="InputText">
+		<param name="inputId" value="str:direccion" />
+		<param name="name" value="str:direccion" />
+		<param name="value" value="compania.direccion" />
+		<param name="placeholder" value="msg:compania.direccion" />
+	</component>
+
+	<component id="observaciones" type="InputTextArea">
+		<param name="inputId" value="str:observaciones" />
+		<param name="name" value="str:observaciones" />
+		<param name="value" value="compania.observaciones" />
+		<param name="placeholder" value="msg:compania.observaciones" />
+		<param name="rows" value="str:5" />
+	</component>
+
+	<component id="condicionIva" type="InputCombo">
+		<param name="inputId" value="str:condicionIva" />
+		<param name="name" value="str:condicionIva" />
+		<param name="value" value="compania.condicionIva" />
+		<param name="options" value="condicionesIva" />
+		<param name="placeholder" value="msg:compania.condicionIva" />
+	</component>
+
+
+
+
+
+</rasty>

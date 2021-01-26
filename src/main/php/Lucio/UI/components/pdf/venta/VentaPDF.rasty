@@ -1,0 +1,5 @@
+<rasty specificationClass="Lucio\UI\components\pdf\venta\VentaPDF" templateLocation="VentaPDF.htm">
+
+	<param name="ventaOid" value="get:ventaOid" />
+
+</rasty>

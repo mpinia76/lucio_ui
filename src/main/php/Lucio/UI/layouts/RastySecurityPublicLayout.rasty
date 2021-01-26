@@ -1,0 +1,5 @@
+<rasty specificationClass="Lucio\UI\layouts\LucioLoginMetroLayout" templateLocation="LucioLoginMetroLayout.htm">
+
+	<component id="footer" type="FooterLpnkf">
+	</component>
+</rasty>

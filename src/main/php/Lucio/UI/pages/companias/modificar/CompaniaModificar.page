@@ -1,0 +1,16 @@
+<rasty specificationClass="Lucio\UI\pages\companias\modificar\CompaniaModificar" templateLocation="pages/companias/modificar/CompaniaModificar.htm">
+
+	<param name="layoutType" value="str:LucioMetroLayout" />
+	<param name="companiaOid" value="get:oid" />
+
+
+	<component id="companiaForm" type="CompaniaForm">
+		<param name="legend" value="msg:compania.modificar.legend" />
+		<param name="action" value="linkActionModificarCompania" />
+		<param name="method" value="str:post" />
+		<param name="backToOnSuccess" value="get:backTo" />
+		<param name="backToOnCancel" value="get:backTo" />
+		<param name="compania" value="compania" />
+	</component>
+
+</rasty>

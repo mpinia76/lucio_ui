@@ -1,0 +1,5 @@
+<rasty specificationClass="Lucio\UI\components\pdf\presupuesto\PresupuestoPDF" templateLocation="PresupuestoPDF.htm">
+
+	<param name="presupuestoOid" value="get:presupuestoOid" />
+
+</rasty>

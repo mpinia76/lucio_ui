@@ -1,0 +1,14 @@
+<rasty specificationClass="Lucio\UI\pages\companias\agregar\CompaniaAgregar" templateLocation="pages/companias/agregar/CompaniaAgregar.htm">
+
+	<param name="layoutType" value="str:LucioMetroLayout" />
+
+	<component id="companiaForm" type="CompaniaForm">
+		<param name="legend" value="msg:compania.agregar.legend" />
+		<param name="backToOnSuccess" value="get:backTo" />
+		<param name="backToOnCancel" value="get:backTo" />
+		<param name="action" value="linkActionAgregarCompania" />
+		<param name="method" value="str:post" />
+		<param name="compania" value="compania" />
+	</component>
+
+</rasty>

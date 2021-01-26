@@ -1,0 +1,16 @@
+<rasty specificationClass="Lucio\UI\components\filter\compania\CompaniaFilter" templateLocation="CompaniaFilter.htm">
+
+	<component id="nombre" type="InputText">
+		<param name="name" value="str:nombre" />
+		<param name="value" value="criteria.nombre" />
+		<param name="placeholder" value="msg:compania.nombre" />
+
+	</component>
+
+	<component id="razonSocial" type="InputText">
+		<param name="name" value="str:razonSocial" />
+		<param name="value" value="criteria.razonSocial" />
+		<param name="placeholder" value="msg:compania.razonSocial" />
+
+	</component>
+</rasty>
