@@ -39,6 +39,11 @@
 
 	</component>
 
+    <component id="compania" type="InputText">
+        		<param name="name" value="str:compania" />
+        		<param name="value" value="criteria.compania" />
+        		<param name="placeholder" value="msg:venta.compania" />
 
+        	</component>
 
 </rasty>

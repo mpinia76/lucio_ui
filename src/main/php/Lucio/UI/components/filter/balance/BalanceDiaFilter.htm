@@ -4,24 +4,24 @@
 function submitBuscarSinSeguridad(webpath, filterId, resultId){
 	//alert(filterId+' '+resultId);
 	var formData = $( filterId ).serialize();
-	
+
 	//$( resultId ).fadeTo("fast", 0.33);
-	right = ($(window).width() / 2) - (32);		
+	right = ($(window).width() / 2) - (32);
 	htmlSearching = "<div style='position:absolute; right:" + right + "px;top:40px;'><img src='" + webpath + "/css/images/loading.gif' /></div>";
 	$( resultId ).html($( resultId ).html() + htmlSearching);
-		
+
 	$.ajax({
 		  url: webpath + "BalanceDia.rasty",
 		  type: "POST",
 		  data: formData,
 		  cache: false,
 		  success: function(content){
-		    
+
 			$( resultId ).html(content);
 			//$( resultId ).fadeTo("fast", 1);
-			
+
 		  }
-		});	
+		});
 }
 
 
@@ -43,11 +43,11 @@ $(document).ready(function(){
 
 	 $(".item input").keyup(function (e) {
          if (e.keyCode == 13) {
-             // función para capturar el enter en el filtro default.
+             // funciï¿½n para capturar el enter en el filtro default.
         	 submitBuscarSinSeguridad("{WEB_PATH}", "#balances_filter{id}", "#{resultDiv}");
          }
      });
-	
+
 });
 
 
@@ -59,8 +59,8 @@ $(document).ready(function(){
 <form class="cuentas_form" id="balances_filter{id}">
 
 		<fieldset>
-		
-		<legend id="legend_buscar{id}">{legend}</legend>		
+
+		<legend id="legend_buscar{id}">{legend}</legend>
 
 			<div class="criteria_left">
 				<div class="item" style="min-width: {minWidth};">
@@ -71,11 +71,14 @@ $(document).ready(function(){
 				    <label for="cliente">{lbl_cliente}:</label>
 			    	<rasty id="cliente" />
 				</div>
-			
-				
+                <div class="item" style="min-width: {minWidth};">
+                    <label for="compania">{lbl_compania}:</label>
+                    <rasty id="compania" />
+                </div>
+
 			</div>
-			<div class="criteria_right">	
-				
+			<div class="criteria_right">
+
 				<div class="item" style="min-width: {minWidth};">
 				    <label for="tipoProducto">{lbl_tipoProducto}:</label>
 			    	<rasty id="tipoProducto" />
@@ -90,24 +93,24 @@ $(document).ready(function(){
 				</div>
 			</div>
 	</fieldset>
-	
-	
+
+
 	<input type="hidden" name="filter" value="{filter}">
 	<input type="hidden" id="page" name="page" value="1">
-	
+
 </form>
 <form  class="cuentas_form" id="buttons{id}">
 	<fieldset class="tblFooters">
-	
-		
-	
-		
+
+
+
+
 		<button id="input_submit_ajax_Producto{id}"  type="button"  onclick="javascript: $( '#page' ).val( 1 ); submitBuscarSinSeguridad('{WEB_PATH}', '#balances_filter{id}', '#{resultDiv}');"><i class="icon-search on-left"></i>{lbl_submit}</button>
-		
-	
-	
+
+
+
 	</fieldset>
-</form>	
+</form>
 
 </div>
 <!-- END:main -->

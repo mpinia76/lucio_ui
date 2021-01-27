@@ -61,6 +61,23 @@ class UIProductoCriteria extends UILucioCriteria{
 	private $stockMinimo;
 	private $fecha;
 	private $cliente;
+    private $compania;
+
+    /**
+     * @return mixed
+     */
+    public function getCompania()
+    {
+        return $this->compania;
+    }
+
+    /**
+     * @param mixed $compania
+     */
+    public function setCompania($compania)
+    {
+        $this->compania = $compania;
+    }
 	public function __construct(){
 
 		parent::__construct();

@@ -69,9 +69,9 @@ class HeaderNav extends RastyComponent{
 
 		if( LucioUIUtils::isAdminLogged() ){
 
-			$menu = $this->getMenuSeguridad() ;
+			/*$menu = $this->getMenuSeguridad() ;
 			if($menu)
-				$menuGroups[] =  $menu;
+				$menuGroups[] =  $menu;*/
 		}
 			//$menuGroup->addMenuOption( $this->getMenuAdmin() );
 			$menuGroups[] =  $this->getMenuAdmin() ;

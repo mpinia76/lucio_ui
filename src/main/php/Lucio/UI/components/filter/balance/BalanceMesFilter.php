@@ -41,6 +41,7 @@ class BalanceMesFilter extends Filter{
 		$this->addProperty("tipoProducto");
 		$this->addProperty("marcaProducto");
 		$this->addProperty("cliente");
+        $this->addProperty("compania");
 
 	}
 
@@ -58,7 +59,7 @@ class BalanceMesFilter extends Filter{
 		$xtpl->assign("lbl_tipoProducto",  $this->localize("producto.tipoProducto") );
 		$xtpl->assign("lbl_marcaProducto",  $this->localize("producto.marcaProducto") );
 		$xtpl->assign("lbl_cliente",  $this->localize("venta.cliente") );
-
+        $xtpl->assign("lbl_compania",  $this->localize("venta.compania") );
 
 
 

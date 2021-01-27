@@ -37,20 +37,24 @@ td.saldo{
 		<p>{totalGanancia}</p>
 	</div>
 	<div class="item">
-		
+
 		<p>{productos}</p>
-	</div>	
+	</div>
 	<div class="item">
-		
+
 		<p>{clientes}</p>
 	</div>
+    <div class="item">
+
+        <p>{companias}</p>
+    </div>
 </div>
 
 <!-- BEGIN: detalle_mes -->
 <div class="box">
 	<fieldset>
 		<legend>{detalle_mes_legend}</legend>
-		
+
 		<table>
 			<tr>
 				<th>{lbl_mes}</th>
@@ -61,6 +65,7 @@ td.saldo{
 				<th>{lbl_ganancia}</th>
 				<th>{lbl_productos}</th>
 				<th>{lbl_clientes}</th>
+                <th>{lbl_companias}</th>
 			</tr>
 			<!-- BEGIN: mes -->
 			<tr>
@@ -72,10 +77,11 @@ td.saldo{
 				<td class='saldo'>{ganancia}</td>
 				<td class='saldo'>{producto}</td>
 				<td class='saldo'>{cliente}</td>
+                <td class='saldo'>{compania}</td>
 			</tr>
-			<!-- END: mes -->	
+			<!-- END: mes -->
 		</table>
-		
+
 	</fieldset>
 </div>
 <!-- END: detalle_mes -->

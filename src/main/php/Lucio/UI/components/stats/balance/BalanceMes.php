@@ -85,6 +85,7 @@ class BalanceMes extends RastyComponent{
 
 		$criteriaVenta->setMes( $criteria->getFecha());
 		$criteriaVenta->setCliente( $criteria->getCliente());
+        $criteriaVenta->setCompania( $criteria->getCompania());
 
 		$saldos = UIServiceFactory::getUIVentaService()->getGananciasProducto($criteriaVenta, $criteria );
 
@@ -128,6 +129,36 @@ class BalanceMes extends RastyComponent{
 			}
 			$xtpl->assign("clientes",  $clientes);
 		}
+        $clientes='';
+        if ($saldos['clientes1']) {
+
+            $clienteIdAnt='';
+            foreach ($saldos['clientes1']['cant'] as $key => $cantidad) {
+                $arrayKey = explode('-', $key);
+                if ($clienteIdAnt!=$arrayKey[0]) {
+                    $clientes .=$saldos['clientes1']['cliente'][$arrayKey[0]].'<br>';
+                }
+                $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
+                $clienteIdAnt=$arrayKey[0];
+            }
+
+        }
+        if ($saldos['clientes2']) {
+            //$clientes='';
+            $clienteIdAnt='';
+            foreach ($saldos['clientes2']['cant'] as $key => $cantidad) {
+                $arrayKey = explode('-', $key);
+                if ($clienteIdAnt!=$arrayKey[0]) {
+                    $clientes .=$saldos['clientes2']['cliente'][$arrayKey[0]].'<br>';
+                }
+                $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
+                $clienteIdAnt=$arrayKey[0];
+            }
+
+        }
+
+
+        $xtpl->assign("companias",  $clientes);
 
 	}
 

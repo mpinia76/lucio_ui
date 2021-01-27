@@ -144,9 +144,15 @@ class UIVentaService  implements IEntityGridService{
 			$saldo['productos']['nombre'] = array();
 			$saldo['clientes']['cant'] = array();
 			$saldo['clientes']['cliente'] = array();
+            $saldo['clientes1']['cant'] = array();
+            $saldo['clientes1']['cliente'] = array();
+            $saldo['clientes2']['cant'] = array();
+            $saldo['clientes2']['cliente'] = array();
 
 			$productosProcesados=array();
 			$clienteProductosProcesados=array();
+            $cliente1ProductosProcesados=array();
+            $cliente2ProductosProcesados=array();
             foreach ($ventas as $venta) {
 
             	if($venta->podesAnularte()){
@@ -189,6 +195,34 @@ class UIVentaService  implements IEntityGridService{
 	            					$clienteProductosProcesados[]=$venta->getCliente()->getOid().'-'.$detalle->getProducto()->getOid();
 
 	            					$saldo['clientes']['cliente'][$venta->getCliente()->getOid()] = $venta->getCliente()->getNombre();
+
+                                    if (!empty($venta->getCliente1())) {
+                                        if (in_array($venta->getCliente1()->getOid() . '-' . $detalle->getProducto()->getOid(), $cliente1ProductosProcesados)) {
+
+                                            $saldo['clientes1']['cant'][$venta->getCliente1()->getOid() . '-' . $detalle->getProducto()->getOid()] += $detalle->getCantidad();
+                                        } else {
+
+                                            $saldo['clientes1']['cant'][$venta->getCliente1()->getOid() . '-' . $detalle->getProducto()->getOid()] = $detalle->getCantidad();
+                                        }
+                                        $cliente1ProductosProcesados[] = $venta->getCliente1()->getOid() . '-' . $detalle->getProducto()->getOid();
+
+                                        $saldo['clientes1']['cliente'][$venta->getCliente1()->getOid()] = $venta->getCliente1()->getNombre();
+                                    }
+
+                                    if (!empty($venta->getCliente2())){
+                                        if (in_array($venta->getCliente2()->getOid().'-'.$detalle->getProducto()->getOid(), $cliente2ProductosProcesados)) {
+
+                                            $saldo['clientes2']['cant'][$venta->getCliente2()->getOid().'-'.$detalle->getProducto()->getOid()] += $detalle->getCantidad();
+                                        }
+                                        else{
+
+                                            $saldo['clientes2']['cant'][$venta->getCliente2()->getOid().'-'.$detalle->getProducto()->getOid()] = $detalle->getCantidad();
+                                        }
+                                        $cliente2ProductosProcesados[]=$venta->getCliente2()->getOid().'-'.$detalle->getProducto()->getOid();
+
+                                        $saldo['clientes2']['cliente'][$venta->getCliente2()->getOid()] = $venta->getCliente2()->getNombre();
+                                    }
+
 	            				}
 
 	            			}
@@ -228,6 +262,30 @@ class UIVentaService  implements IEntityGridService{
 
 	            					$saldo['clientes']['cliente'][$venta->getCliente()->getOid()] = $venta->getCliente()->getNombre();
 
+                                    if (in_array($venta->getCliente1()->getOid().'-'.$devolucion->getProducto()->getOid(), $cliente1ProductosProcesados)) {
+
+                                        $saldo['clientes1']['cant'][$venta->getCliente1()->getOid().'-'.$devolucion->getProducto()->getOid()] -= $devolucion->getCantidad();
+                                    }
+                                    else{
+
+                                        $saldo['clientes1']['cant'][$venta->getCliente1()->getOid().'-'.$devolucion->getProducto()->getOid()] = -$devolucion->getCantidad();
+                                    }
+                                    $cliente1ProductosProcesados[]=$venta->getCliente1()->getOid().'-'.$devolucion->getProducto()->getOid();
+
+                                    $saldo['clientes1']['cliente'][$venta->getCliente1()->getOid()] = $venta->getCliente1()->getNombre();
+
+                                    if (in_array($venta->getCliente2()->getOid().'-'.$devolucion->getProducto()->getOid(), $cliente2ProductosProcesados)) {
+
+                                        $saldo['clientes2']['cant'][$venta->getCliente2()->getOid().'-'.$devolucion->getProducto()->getOid()] -= $devolucion->getCantidad();
+                                    }
+                                    else{
+
+                                        $saldo['clientes2']['cant'][$venta->getCliente2()->getOid().'-'.$devolucion->getProducto()->getOid()] = -$devolucion->getCantidad();
+                                    }
+                                    $cliente2ProductosProcesados[]=$venta->getCliente2()->getOid().'-'.$devolucion->getProducto()->getOid();
+
+                                    $saldo['clientes2']['cliente'][$venta->getCliente2()->getOid()] = $venta->getCliente2()->getNombre();
+
 	            				}
 
 	            			}
@@ -236,13 +294,15 @@ class UIVentaService  implements IEntityGridService{
             		}
             		else{
             			$saldo['ganancias'] += $venta->getGanancia();
-            			$saldo['ventas'] += $venta->getMontoPagado();
+            			$saldo['ventas'] += $venta->getMontoPagadoCliente()+$venta->getMontoPagadoCliente1()+$venta->getMontoPagadoCliente2();
             		}
 
             	}
             }
 
             ksort($saldo['clientes']['cant']);
+            ksort($saldo['clientes1']['cant']);
+            ksort($saldo['clientes2']['cant']);
             return $saldo;
 
 
