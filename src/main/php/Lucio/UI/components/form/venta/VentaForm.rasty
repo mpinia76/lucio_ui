@@ -106,7 +106,7 @@
 		<param name="inputId" value="str:detallePrecioLista" />
 		<param name="name" value="str:detallePrecioLista" />
 		<param name="value" value="detalle.precioLista" />
-
+        <param name="size" value="str:5px" />
 		<param name="placeholder" value="msg:venta.detalle.precioLista" />
 		<param name="autocomplete" value="str:off" />
 	</component>
@@ -117,6 +117,7 @@
 		<param name="value" value="detalle.precioEfectivo" />
 		<param name="placeholder" value="msg:venta.detalle.precioEfectivo" />
 		<param name="autocomplete" value="str:off" />
+		<param name="size" value="str:5px" />
 	</component>
 
 	<component id="detallePrecio" type="InputCurrency">
@@ -126,6 +127,7 @@
 		<param name="requiredMessage" value="msg:venta.detalle.precio.required" />
 		<param name="placeholder" value="msg:venta.detalle.precio" />
 		<param name="autocomplete" value="str:off" />
+		<param name="size" value="str:5px" />
 	</component>
 
 	<component id="detalleCosto" type="InputHidden">
@@ -141,6 +143,7 @@
 		<param name="requiredMessage" value="msg:venta.detalle.cantidad.required" />
 		<param name="placeholder" value="msg:venta.detalle.cantidad" />
 		<param name="autocomplete" value="str:off" />
+		<param name="size" value="str:5px" />
 	</component>
 
 	<component id="detalleProducto" type="InputFindEntity">
