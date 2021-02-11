@@ -14,7 +14,7 @@
 		<param name="value" value="producto.oid" />
 	</component>
 
-    <component id="codigo" type="InputNumber">
+    <component id="codigo" type="InputText">
     		<param name="inputId" value="str:codigo" />
     		<param name="name" value="str:codigo" />
     		<param name="value" value="producto.codigo" />
