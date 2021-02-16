@@ -95,7 +95,8 @@ class AdminHome extends LucioPage{
 		$xtpl->assign("menu_admin", $this->localize("menu.admin") );
 		$xtpl->assign("menu_clientes", $this->localize("menu.clientes") );
 		$xtpl->assign("linkClientes", $this->getLinkClientes() );
-		$xtpl->assign("menu_clientes_agregar", $this->localize("menu.clientes.agregar") );
+		//$xtpl->assign("menu_clientes_agregar", $this->localize("menu.clientes.agregar") );
+        $xtpl->assign("menu_clientes_agregar", $this->localize("menu.clientesCtaCte.listar") );
 		//$xtpl->assign("linkClienteAgregar", $this->getLinkClienteAgregar() );
         //$xtpl->assign("menu_clientes_agregar", $this->localize("menu.clientesCtaCte.listar") );
         $xtpl->assign("linkClienteAgregar", $this->getLinkClientesCtaCte() );
