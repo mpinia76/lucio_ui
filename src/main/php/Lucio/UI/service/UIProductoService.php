@@ -16,6 +16,9 @@ use Cose\Security\model\User;
 use Rasty\Grid\entitygrid\model\IEntityGridService;
 use Rasty\Grid\filter\model\UICriteria;
 
+use Lucio\Core\utils\LucioUtils;
+
+
 /**
  *
  * UI service para productos.
@@ -222,8 +225,9 @@ class UIProductoService  implements IEntityGridService{
 
 			$saldo = 0;
             foreach ($productos as $producto) {
-
-            		$saldo += $producto->getStock()*$producto->getCosto();
+                    if ($producto->getMarcaProducto()->getOid()!=LucioUtils::getMarcaPropia()->getOid()) {
+                        $saldo += $producto->getStock() * $producto->getCosto();
+                    }
 
             }
             return $saldo;

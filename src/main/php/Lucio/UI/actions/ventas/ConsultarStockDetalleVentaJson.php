@@ -2,7 +2,7 @@
 namespace Lucio\UI\actions\ventas;
 
 use Lucio\UI\utils\LucioUIUtils;
-
+use Lucio\Core\utils\LucioUtils;
 use Lucio\UI\service\UIProductoService;
 
 use Lucio\UI\service\UIServiceFactory;
@@ -54,10 +54,12 @@ class ConsultarStockDetalleVentaJson extends JsonAction{
 
             $oProducto = UIServiceFactory::getUIProductoService()->getByCriteria( $uiCriteria );
 
-            if ($oProducto->getTipoProducto()->getOid()==2){
-                $result["hayStock"] = 'SI';
-            }
-            else{
+
+
+
+
+            $hayStock = 'SI';
+            if ($oProducto->getMarcaProducto()->getOid()!=LucioUtils::getMarcaPropia()->getOid()){
                 $detalle->setProducto($oProducto  );
                 $detalle->setCantidad( $cantidad );
                 $detalle->setPrecioUnitario( $precio );
