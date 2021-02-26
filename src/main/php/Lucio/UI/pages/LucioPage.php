@@ -481,7 +481,7 @@ abstract class LucioPage extends RastyPage{
 
 	}
 
-	public function getLinkPedidoAgregar($backTo = "CajaHome"){
+	public function getLinkPedidoAgregar($backTo = "PedidoPagar"){
 
 
 
