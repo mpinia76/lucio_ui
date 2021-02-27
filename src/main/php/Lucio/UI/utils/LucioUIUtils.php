@@ -720,7 +720,7 @@ public static function agregarDetallePedidoSession(DetallePedido $detalle) {
 
 		$detallejson = array();
 		$detallejson["producto_oid"] = $detalle->getProducto()->getOid();
-		$detallejson["producto_nombre"] = $detalle->getProducto()->getNombre();
+		$detallejson["producto_nombre"] = $detalle->getProducto()->__toString();
 	    $detallejson["precioUnitario"] = $detalle->getPrecioUnitario();
 	    $detallejson["cantidad"] = $detalle->getCantidad();
 	    $detallejson["subtotal"] = $detalle->getCantidad() * $detalle->getPrecioUnitario();
@@ -891,7 +891,7 @@ public static function agregarDetallePedidoSession(DetallePedido $detalle) {
 			}
 			$detallejson["combo_cantidad"] = $cantidad;
 		}
-		$detallejson["producto_nombre"] = $detalle->getProducto()->getTipoProducto()->getNombre().' '.$detalle->getProducto()->getMarcaProducto()->getNombre().' '.$detalle->getProducto()->getNombre();
+		$detallejson["producto_nombre"] = $detalle->getProducto()->__toString();
 	    $detallejson["precioUnitario"] = $detalle->getPrecioUnitario();
 	    $detallejson["costo"] = $detalle->getCosto();
 	    $detallejson["stockActualizado"] = $detalle->getStockActualizado();
@@ -1048,7 +1048,7 @@ public static function agregarDetallePedidoSession(DetallePedido $detalle) {
 
 		$detallejson = array();
 		$detallejson["producto_oid"] = $detalle->getProducto()->getOid();
-		$detallejson["producto_nombre"] = $detalle->getProducto()->getTipoProducto()->getNombre().' '.$detalle->getProducto()->getMarcaProducto()->getNombre().' '.$detalle->getProducto()->getNombre();
+		$detallejson["producto_nombre"] = $detalle->getProducto()->__toString();
 	    $detallejson["precioUnitario"] = $detalle->getPrecioUnitario();
 	    $detallejson["cantidad"] = $detalle->getCantidad();
 	    $detallejson["subtotal"] = $detalle->getCantidad() * $detalle->getPrecioUnitario();

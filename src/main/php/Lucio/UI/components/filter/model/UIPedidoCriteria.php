@@ -49,7 +49,7 @@ class UIPedidoCriteria extends UILucioCriteria{
 
 		parent::__construct();
 
-		$this->setFiltroPredefinido( self::SIN_RECIBIR );
+		//$this->setFiltroPredefinido( self::SIN_RECIBIR );
 
 	}
 
