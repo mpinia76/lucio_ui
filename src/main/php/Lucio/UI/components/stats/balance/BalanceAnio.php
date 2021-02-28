@@ -22,6 +22,7 @@ use Rasty\factory\ComponentConfig;
 use Rasty\factory\ComponentFactory;
 
 use Lucio\UI\components\filter\model\UIVentaCriteria;
+use Lucio\UI\components\filter\model\UIGastoCriteria;
 
 /**
  * Balance del anio.
@@ -31,251 +32,202 @@ use Lucio\UI\components\filter\model\UIVentaCriteria;
  */
 class BalanceAnio extends RastyComponent{
 
-	private $fecha;
+    private $fecha;
 
-	public function getType(){
+    public function getType(){
 
-		return "BalanceAnio";
+        return "BalanceAnio";
 
-	}
+    }
 
-	public function __construct(){
-		$fecha = new \DateTime();
-		$this->setFecha($fecha);
+    public function __construct(){
+        $fecha = new \DateTime();
+        $this->setFecha($fecha);
 
-	}
+    }
 
-	protected function parseLabels(XTemplate $xtpl){
+    protected function parseLabels(XTemplate $xtpl){
 
-		$xtpl->assign("lbl_anio",  $this->localize( "balanceAnio.anio" ) );
-		$xtpl->assign("lbl_mes",  $this->localize( "balanceAnio.mes" ) );
-		$xtpl->assign("lbl_ventas",  $this->localize( "balanceAnio.ventas" ) );
-		/*$xtpl->assign("lbl_pagos",  $this->localize( "balanceAnio.pagos" ) );
-		$xtpl->assign("lbl_gastos",  $this->localize( "balanceAnio.gastos" ) );
-		$xtpl->assign("lbl_comisiones",  $this->localize( "balanceAnio.comisiones" ) );*/
-		$xtpl->assign("lbl_ganancia",  $this->localize( "balanceAnio.ganancia" ) );
+        $xtpl->assign("lbl_anio",  $this->localize( "balanceAnio.anio" ) );
+        $xtpl->assign("lbl_mes",  $this->localize( "balanceAnio.mes" ) );
+        $xtpl->assign("lbl_ventas",  $this->localize( "balanceAnio.ventas" ) );
+        $xtpl->assign("lbl_gastos",  $this->localize( "balanceDia.gastos" ) );
+        $xtpl->assign("lbl_ganancia",  $this->localize( "balanceAnio.ganancia" ) );
 
-		$xtpl->assign("detalle_mes_legend",  $this->localize( "balanceAnio.detalle_mes.legend" ) );
+        $xtpl->assign("detalle_mes_legend",  $this->localize( "balanceAnio.detalle_mes.legend" ) );
 
 
-	}
+    }
 
-	protected function parseXTemplate(XTemplate $xtpl){
-		ini_set('max_execution_time', '0');
-		$componentConfig = new ComponentConfig();
-	    $componentConfig->setId( "filter" );
-		$componentConfig->setType( $this->getFilterType() );
+    protected function parseXTemplate(XTemplate $xtpl){
+        ini_set('max_execution_time', '0');
+        $componentConfig = new ComponentConfig();
+        $componentConfig->setId( "filter" );
+        $componentConfig->setType( $this->getFilterType() );
 
-	    $this->filter = ComponentFactory::buildByType($componentConfig, $this);
+        $this->filter = ComponentFactory::buildByType($componentConfig, $this);
 
 
 
-		$this->filter->fill( );
+        $this->filter->fill( );
 
-		$criteria = $this->filter->getCriteria();
+        $criteria = $this->filter->getCriteria();
 
-		/*labels*/
-		$this->parseLabels($xtpl);
+        /*labels*/
+        $this->parseLabels($xtpl);
 
-		$fecha = $criteria->getFecha();
-		if(empty($fecha))
-			$fecha = new \DateTime();
+        $fecha = $criteria->getFecha();
+        if(empty($fecha))
+            $fecha = new \DateTime();
 
+        $serviceGasto = UIServiceFactory::getUIGastoService();
+        $criteriaGasto = new UIGastoCriteria();
+        $criteriaGasto->setFiltroPredefinido(0);
+        $criteriaGasto->setYear($fecha);
 
-		$criteriaVenta = new UIVentaCriteria();
-
-		$criteriaVenta->setYear( $fecha);
-		$criteriaVenta->setCliente( $criteria->getCliente());
-        $criteriaVenta->setCompania( $criteria->getCompania() );
-
-		$saldos = UIServiceFactory::getUIVentaService()->getGananciasProducto($criteriaVenta, $criteria );
-
-		//$balance = UIServiceFactory::getUIBalanceService()->getBalanceAnio($fecha);
+        $gastoSaldo = $serviceGasto->getTotales($criteriaGasto);
 
 
-		$balances = array();
+        $criteriaVenta = new UIVentaCriteria();
 
-		$anio = $fecha->format("Y");
+        $criteriaVenta->setYear( $fecha);
+        $criteriaVenta->setCliente( $criteria->getCliente());
 
-		$meses = LucioUIUtils::getMeses();
+        $saldos = UIServiceFactory::getUIVentaService()->getGananciasProducto($criteriaVenta, $criteria );
 
-		for ($mes = 1; $mes <=12; $mes++) {
-			$balances[$mes] = array( "ventas" => 0,
-
-										"ganancias" => 0,
-										"mes_nombre" => $meses[$mes]);
-		}
+        //$balance = UIServiceFactory::getUIBalanceService()->getBalanceAnio($fecha);
 
 
-		$xtpl->assign("anio",  $fecha->format("Y"));
-		/*$xtpl->assign("totalGastos",  LucioUIUtils::formatMontoToView($balance["gastos"]) );
-		$xtpl->assign("totalPagos",  LucioUIUtils::formatMontoToView($balance["pagos"]) );*/
-		$xtpl->assign("totalVentas",  LucioUIUtils::formatMontoToView($saldos["ventas"]) );
-		//$xtpl->assign("totalComisiones",  LucioUIUtils::formatMontoToView($balance["comisiones"]) );
-		$xtpl->assign("totalGanancia",  LucioUIUtils::formatMontoToView($saldos["ganancias"]) );
+        $balances = array();
 
-		if ($saldos['productos']) {
-			$productos='';
+        $anio = $fecha->format("Y");
 
-			foreach ($saldos['productos']['cant'] as $key => $cantidad) {
-				//print_r($producto);
-				$productos .=$saldos['productos']['nombre'][$key].' Vendidos: '.$cantidad.' <br>';
-			}
-			$xtpl->assign("productos",  $productos);
-		}
-		if ($saldos['clientes']) {
-			$clientes='';
-			$clienteIdAnt='';
-			foreach ($saldos['clientes']['cant'] as $key => $cantidad) {
-				$arrayKey = explode('-', $key);
-				if ($clienteIdAnt!=$arrayKey[0]) {
-					$clientes .=$saldos['clientes']['cliente'][$arrayKey[0]].'<br>';
-				}
-				$clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
-				$clienteIdAnt=$arrayKey[0];
-			}
-			$xtpl->assign("clientes",  $clientes);
-		}
-        $clientes='';
-        if ($saldos['clientes1']) {
+        $meses = LucioUIUtils::getMeses();
 
-            $clienteIdAnt='';
-            foreach ($saldos['clientes1']['cant'] as $key => $cantidad) {
-                $arrayKey = explode('-', $key);
-                if ($clienteIdAnt!=$arrayKey[0]) {
-                    $clientes .=$saldos['clientes1']['cliente'][$arrayKey[0]].'<br>';
-                }
-                $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
-                $clienteIdAnt=$arrayKey[0];
-            }
+        for ($mes = 1; $mes <=12; $mes++) {
+            $balances[$mes] = array( "ventas" => 0,
 
-        }
-        if ($saldos['clientes2']) {
-            //$clientes='';
-            $clienteIdAnt='';
-            foreach ($saldos['clientes2']['cant'] as $key => $cantidad) {
-                $arrayKey = explode('-', $key);
-                if ($clienteIdAnt!=$arrayKey[0]) {
-                    $clientes .=$saldos['clientes2']['cliente'][$arrayKey[0]].'<br>';
-                }
-                $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
-                $clienteIdAnt=$arrayKey[0];
-            }
-
+                "ganancias" => 0,
+                "mes_nombre" => $meses[$mes]);
         }
 
 
-        $xtpl->assign("companias",  $clientes);
+        $xtpl->assign("anio",  $fecha->format("Y"));
+        /*$xtpl->assign("totalGastos",  LucioUIUtils::formatMontoToView($balance["gastos"]) );
+        $xtpl->assign("totalPagos",  LucioUIUtils::formatMontoToView($balance["pagos"]) );*/
+        $xtpl->assign("totalVentas",  LucioUIUtils::formatMontoToView($saldos["ventas"]) );
+        //$xtpl->assign("totalComisiones",  LucioUIUtils::formatMontoToView($balance["comisiones"]) );
+        $xtpl->assign("totalGanancia",  LucioUIUtils::formatMontoToView($saldos["ganancias"]) );
+        $xtpl->assign("totalGastos",  LucioUIUtils::formatMontoToView((-1)*$gastoSaldo)  );
+        if ($saldos['productos']) {
+            $productos='';
 
-		$detalles = $balances;
-
-		for ($mes = 1; $mes <=12; $mes++) {
-
-			$xtpl->assign("mes",  $detalles[$mes]["mes_nombre"] );
-
-			$criteriaVentaMes = new UIVentaCriteria();
-
-			$year = LucioUIUtils::yearOfDate($criteria->getFecha());
-
-
-			$fecha = new \DateTime($year.'-'.$mes.'-01');
-
-
-			$criteriaVentaMes->setMes( $fecha);
-			$criteriaVentaMes->setCliente( $criteria->getCliente());
-            $criteriaVentaMes->setCompania( $criteria->getCompania());
-
-			$saldos = UIServiceFactory::getUIVentaService()->getGananciasProducto($criteriaVentaMes, $criteria );
-
-
-			$xtpl->assign("ventas",  LucioUIUtils::formatMontoToView($saldos["ventas"]) );
-			/*$xtpl->assign("gastos",  LucioUIUtils::formatMontoToView($detalles[$mes]["gastos"]) );
-			$xtpl->assign("pagos",  LucioUIUtils::formatMontoToView($detalles[$mes]["pagos"]) );
-			$xtpl->assign("comisiones",  LucioUIUtils::formatMontoToView($detalles[$mes]["comisiones"]) );*/
-			$xtpl->assign("ganancia",  LucioUIUtils::formatMontoToView($saldos["ganancias"]) );
-			if ($saldos['productos']) {
-				$productos='';
-
-				foreach ($saldos['productos']['cant'] as $key => $cantidad) {
-					//print_r($producto);
-					$productos .=$saldos['productos']['nombre'][$key].' Vendidos: '.$cantidad.' <br>';
-				}
-				$xtpl->assign("producto",  $productos);
-			}
-			if ($saldos['clientes']) {
-				$clientes='';
-				$clienteIdAnt='';
-				foreach ($saldos['clientes']['cant'] as $key => $cantidad) {
-					$arrayKey = explode('-', $key);
-					if ($clienteIdAnt!=$arrayKey[0]) {
-						$clientes .='<strong>'.$saldos['clientes']['cliente'][$arrayKey[0]].'</strong><br>';
-					}
-					$clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
-					$clienteIdAnt=$arrayKey[0];
-				}
-				$xtpl->assign("cliente",  $clientes);
-			}
+            foreach ($saldos['productos']['cant'] as $key => $cantidad) {
+                //print_r($producto);
+                $productos .=$saldos['productos']['nombre'][$key].' Vendidos: '.$cantidad.' <br>';
+            }
+            $xtpl->assign("productos",  $productos);
+        }
+        if ($saldos['clientes']) {
             $clientes='';
-            if ($saldos['clientes1']) {
+            $clienteIdAnt='';
+            foreach ($saldos['clientes']['cant'] as $key => $cantidad) {
+                $arrayKey = explode('-', $key);
+                if ($clienteIdAnt!=$arrayKey[0]) {
+                    $clientes .=$saldos['clientes']['cliente'][$arrayKey[0]].'<br>';
+                }
+                $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
+                $clienteIdAnt=$arrayKey[0];
+            }
+            $xtpl->assign("clientes",  $clientes);
+        }
 
+        $detalles = $balances;
+
+        for ($mes = 1; $mes <=12; $mes++) {
+
+            $xtpl->assign("mes",  $detalles[$mes]["mes_nombre"] );
+
+            $criteriaVentaMes = new UIVentaCriteria();
+
+            $year = LucioUIUtils::yearOfDate($criteria->getFecha());
+
+
+            $fecha = new \DateTime($year.'-'.$mes.'-01');
+
+            $criteriaGastoMes = new UIGastoCriteria();
+            $criteriaGastoMes->setFiltroPredefinido(0);
+            $criteriaGastoMes->setMes($fecha);
+
+            $gastoSaldoMes = $serviceGasto->getTotales($criteriaGastoMes);
+
+
+            $criteriaVentaMes->setMes( $fecha);
+            $criteriaVentaMes->setCliente( $criteria->getCliente());
+
+            $saldos = UIServiceFactory::getUIVentaService()->getGananciasProducto($criteriaVentaMes, $criteria );
+
+
+            $xtpl->assign("ventas",  LucioUIUtils::formatMontoToView($saldos["ventas"]) );
+            /*$xtpl->assign("gastos",  LucioUIUtils::formatMontoToView($detalles[$mes]["gastos"]) );
+            $xtpl->assign("pagos",  LucioUIUtils::formatMontoToView($detalles[$mes]["pagos"]) );
+            $xtpl->assign("comisiones",  LucioUIUtils::formatMontoToView($detalles[$mes]["comisiones"]) );*/
+            $xtpl->assign("ganancia",  LucioUIUtils::formatMontoToView($saldos["ganancias"]) );
+            $xtpl->assign("gastos",  LucioUIUtils::formatMontoToView((-1)*$gastoSaldoMes)  );
+            if ($saldos['productos']) {
+                $productos='';
+
+                foreach ($saldos['productos']['cant'] as $key => $cantidad) {
+                    //print_r($producto);
+                    $productos .=$saldos['productos']['nombre'][$key].' Vendidos: '.$cantidad.' <br>';
+                }
+                $xtpl->assign("producto",  $productos);
+            }
+            if ($saldos['clientes']) {
+                $clientes='';
                 $clienteIdAnt='';
-                foreach ($saldos['clientes1']['cant'] as $key => $cantidad) {
+                foreach ($saldos['clientes']['cant'] as $key => $cantidad) {
                     $arrayKey = explode('-', $key);
                     if ($clienteIdAnt!=$arrayKey[0]) {
-                        $clientes .='<strong>'.$saldos['clientes1']['cliente'][$arrayKey[0]].'</strong><br>';
+                        $clientes .='<strong>'.$saldos['clientes']['cliente'][$arrayKey[0]].'</strong><br>';
                     }
                     $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
                     $clienteIdAnt=$arrayKey[0];
                 }
-
+                $xtpl->assign("cliente",  $clientes);
             }
-            if ($saldos['clientes2']) {
+            $xtpl->parse("main.detalle_mes.mes");
 
-                $clienteIdAnt='';
-                foreach ($saldos['clientes2']['cant'] as $key => $cantidad) {
-                    $arrayKey = explode('-', $key);
-                    if ($clienteIdAnt!=$arrayKey[0]) {
-                        $clientes .='<strong>'.$saldos['clientes2']['cliente'][$arrayKey[0]].'</strong><br>';
-                    }
-                    $clientes .='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$saldos['productos']['nombre'][$arrayKey[1]].' Vendidos: '.$cantidad.' <br>';
-                    $clienteIdAnt=$arrayKey[0];
-                }
+        }
 
-            }
+        $xtpl->parse("main.detalle_mes");
 
-            $xtpl->assign("compania",  $clientes);
-			$xtpl->parse("main.detalle_mes.mes");
-
-		}
-
-		$xtpl->parse("main.detalle_mes");
-
-	}
+    }
 
 
 
-	public function getFecha()
-	{
-	    return $this->fecha;
-	}
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
 
-	public function setFecha($fecha)
-	{
-	    $this->fecha = $fecha;
-	}
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    }
 
-	protected function initObserverEventType(){
-		//TODO $this->addEventType( "Venta" );
-	}
+    protected function initObserverEventType(){
+        //TODO $this->addEventType( "Venta" );
+    }
 
-	public function getFilterType()
-	{
-	    return $this->filterType;
-	}
+    public function getFilterType()
+    {
+        return $this->filterType;
+    }
 
-	public function setFilterType($filterType)
-	{
-	    $this->filterType = $filterType;
-	}
+    public function setFilterType($filterType)
+    {
+        $this->filterType = $filterType;
+    }
 }
 ?>

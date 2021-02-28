@@ -20,218 +20,257 @@ use Lucio\Core\model\EstadoGasto;
  */
 class UIGastoCriteria extends UILucioCriteria{
 
-	/* constantes para los filtros predefinidos */
-	const HOY = "gastosHoy";
-	const SEMANA_ACTUAL = "gastosSemanaActual";
-	const MES_ACTUAL = "gastosMesActual";
-	const ANIO_ACTUAL = "gastosAnioActual";
-	const IMPAGOS = "gastosImpagos";
-	const POR_VENCER = "gastosPorVencer";
+    /* constantes para los filtros predefinidos */
+    const HOY = "gastosHoy";
+    const SEMANA_ACTUAL = "gastosSemanaActual";
+    const MES_ACTUAL = "gastosMesActual";
+    const ANIO_ACTUAL = "gastosAnioActual";
+    const IMPAGOS = "gastosImpagos";
+    const POR_VENCER = "gastosPorVencer";
 
-	private $fecha;
+    private $fecha;
 
-	private $fechaDesde;
+    private $fechaDesde;
 
-	private $fechaHasta;
+    private $fechaHasta;
 
-	private $fechaVencimientoHasta;
+    private $fechaVencimientoHasta;
 
-	private $estadoNotEqual;
+    private $estadoNotEqual;
 
-	private $estado;
+    private $estado;
 
-	private $concepto;
+    private $concepto;
 
-	private $observaciones;
+    private $observaciones;
 
-	private $estadosIn;
+    private $estadosIn;
 
-	private $estadosNotIn;
+    private $estadosNotIn;
 
+    private $mes;
 
-	public function __construct(){
+    /**
+     * @return mixed
+     */
+    public function getMes()
+    {
+        return $this->mes;
+    }
 
-		parent::__construct();
+    /**
+     * @param mixed $mes
+     */
+    public function setMes($mes)
+    {
+        $this->mes = $mes;
+    }
 
-		$this->setFiltroPredefinido( self::POR_VENCER );
+    /**
+     * @return mixed
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
 
-	}
+    /**
+     * @param mixed $year
+     */
+    public function setYear($year)
+    {
+        $this->year = $year;
+    }
 
-	protected function newCoreCriteria(){
-		return new GastoCriteria();
-	}
+    private $year;
 
-	public function buildCoreCriteria(){
 
-		$criteria = parent::buildCoreCriteria();
+    public function __construct(){
 
-		$criteria->setFechaDesde( $this->getFechaDesde() );
-		$criteria->setFechaHasta( $this->getFechaHasta() );
-		$criteria->setFechaVencimientoHasta( $this->getFechaVencimientoHasta() );
-		$criteria->setEstadoNotEqual( $this->getEstadoNotEqual() );
-		$criteria->setEstado( $this->getEstado() );
-		$criteria->setConcepto( $this->getConcepto() );
-		$criteria->setObservaciones( $this->getObservaciones() );
-		$criteria->setEstadosIn( $this->getEstadosIn() );
-		$criteria->setEstadosNotIn( $this->getEstadosNotIn() );
+        parent::__construct();
 
-		return $criteria;
-	}
+        //$this->setFiltroPredefinido( self::POR_VENCER );
 
-	public function getFecha()
-	{
-	    return $this->fecha;
-	}
+    }
 
-	public function setFecha($fecha)
-	{
-	    $this->fecha = $fecha;
-	}
+    protected function newCoreCriteria(){
+        return new GastoCriteria();
+    }
 
+    public function buildCoreCriteria(){
 
-	public function getFechaDesde()
-	{
-	    return $this->fechaDesde;
-	}
+        $criteria = parent::buildCoreCriteria();
 
-	public function setFechaDesde($fechaDesde)
-	{
-	    $this->fechaDesde = $fechaDesde;
-	}
+        $criteria->setFecha( $this->getFecha() );
+        $criteria->setFechaDesde( $this->getFechaDesde() );
+        $criteria->setFechaHasta( $this->getFechaHasta() );
+        $criteria->setFechaVencimientoHasta( $this->getFechaVencimientoHasta() );
+        $criteria->setEstadoNotEqual( $this->getEstadoNotEqual() );
+        $criteria->setEstado( $this->getEstado() );
+        $criteria->setConcepto( $this->getConcepto() );
+        $criteria->setObservaciones( $this->getObservaciones() );
+        $criteria->setEstadosIn( $this->getEstadosIn() );
+        $criteria->setEstadosNotIn( $this->getEstadosNotIn() );
+        $criteria->setMes( $this->getMes() );
+        $criteria->setYear( $this->getYear() );
 
-	public function getFechaHasta()
-	{
-	    return $this->fechaHasta;
-	}
+        return $criteria;
+    }
 
-	public function setFechaHasta($fechaHasta)
-	{
-	    $this->fechaHasta = $fechaHasta;
-	}
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
 
-	public function getFechaVencimientoHasta()
-	{
-	    return $this->fechaVencimientoHasta;
-	}
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    }
 
-	public function setFechaVencimientoHasta($fechaVencimientoHasta)
-	{
-	    $this->fechaVencimientoHasta = $fechaVencimientoHasta;
-	}
 
-	public function getEstadoNotEqual()
-	{
-	    return $this->estadoNotEqual;
-	}
+    public function getFechaDesde()
+    {
+        return $this->fechaDesde;
+    }
 
-	public function setEstadoNotEqual($estadoNotEqual)
-	{
-	    $this->estadoNotEqual = $estadoNotEqual;
-	}
+    public function setFechaDesde($fechaDesde)
+    {
+        $this->fechaDesde = $fechaDesde;
+    }
 
+    public function getFechaHasta()
+    {
+        return $this->fechaHasta;
+    }
 
+    public function setFechaHasta($fechaHasta)
+    {
+        $this->fechaHasta = $fechaHasta;
+    }
 
-	public function gastosHoy(){
+    public function getFechaVencimientoHasta()
+    {
+        return $this->fechaVencimientoHasta;
+    }
 
-		$this->setFecha( new \Datetime() );
+    public function setFechaVencimientoHasta($fechaVencimientoHasta)
+    {
+        $this->fechaVencimientoHasta = $fechaVencimientoHasta;
+    }
 
-	}
+    public function getEstadoNotEqual()
+    {
+        return $this->estadoNotEqual;
+    }
 
+    public function setEstadoNotEqual($estadoNotEqual)
+    {
+        $this->estadoNotEqual = $estadoNotEqual;
+    }
 
-	public function gastosSemanaActual(){
 
-		$fechaDesde = LucioUtils::getFirstDayOfWeek( new \Datetime() );
-		$fechaHasta = LucioUtils::getLastDayOfWeek( new \Datetime());
 
-		$this->setFechaDesde( $fechaDesde );
-		$this->setFechaHasta( $fechaHasta );
-	}
+    public function gastosHoy(){
 
-	public function gastosMesActual(){
+        $this->setFecha( new \Datetime() );
 
-		$fechaDesde = LucioUtils::getFirstDayOfMonth( new \Datetime() );
-		$fechaHasta = LucioUtils::getLastDayOfMonth( new \Datetime());
+    }
 
-		$this->setFechaDesde( $fechaDesde );
-		$this->setFechaHasta( $fechaHasta );
 
-	}
+    public function gastosSemanaActual(){
 
-	public function gastosAnioActual(){
+        $fechaDesde = LucioUtils::getFirstDayOfWeek( new \Datetime() );
+        $fechaHasta = LucioUtils::getLastDayOfWeek( new \Datetime());
 
-		$fechaDesde = LucioUtils::getFirstDayOfYear( new \Datetime() );
-		$fechaHasta = LucioUtils::getLastDayOfYear( new \Datetime());
+        $this->setFechaDesde( $fechaDesde );
+        $this->setFechaHasta( $fechaHasta );
+    }
 
-		$this->setFechaDesde( $fechaDesde );
-		$this->setFechaHasta( $fechaHasta );
-	}
+    public function gastosMesActual(){
 
-	public function gastosImpagos(){
+        $fechaDesde = LucioUtils::getFirstDayOfMonth( new \Datetime() );
+        $fechaHasta = LucioUtils::getLastDayOfMonth( new \Datetime());
 
-		$this->setEstado( EstadoGasto::Impago );
+        $this->setFechaDesde( $fechaDesde );
+        $this->setFechaHasta( $fechaHasta );
 
-	}
+    }
 
-	public function gastosPorVencer(){
+    public function gastosAnioActual(){
 
-		$fechaVencimientoHasta = new \Datetime();
-		$fechaVencimientoHasta->modify("+30 day");
+        $fechaDesde = LucioUtils::getFirstDayOfYear( new \Datetime() );
+        $fechaHasta = LucioUtils::getLastDayOfYear( new \Datetime());
 
-		$this->setFechaVencimientoHasta($fechaVencimientoHasta);
-		$this->setEstadosNotIn( array( EstadoGasto::Pagado, EstadoGasto::Anulado ) );
-		$this->addOrder("fechaVencimiento", "ASC");
+        $this->setFechaDesde( $fechaDesde );
+        $this->setFechaHasta( $fechaHasta );
+    }
 
+    public function gastosImpagos(){
 
-	}
+        $this->setEstado( EstadoGasto::Impago );
 
+    }
 
-	public function getEstado()
-	{
-	    return $this->estado;
-	}
+    public function gastosPorVencer(){
 
-	public function setEstado($estado)
-	{
-	    $this->estado = $estado;
-	}
+        $fechaVencimientoHasta = new \Datetime();
+        $fechaVencimientoHasta->modify("+30 day");
 
-	public function getConcepto()
-	{
-	    return $this->concepto;
-	}
+        $this->setFechaVencimientoHasta($fechaVencimientoHasta);
+        $this->setEstadosNotIn( array( EstadoGasto::Pagado, EstadoGasto::Anulado ) );
+        $this->addOrder("fechaVencimiento", "ASC");
 
-	public function setConcepto($concepto)
-	{
-	    $this->concepto = $concepto;
-	}
 
-	public function getObservaciones()
-	{
-	    return $this->observaciones;
-	}
+    }
 
-	public function setObservaciones($observaciones)
-	{
-	    $this->observaciones = $observaciones;
-	}
 
-	public function getEstadosIn()
-	{
-	    return $this->estadosIn;
-	}
+    public function getEstado()
+    {
+        return $this->estado;
+    }
 
-	public function setEstadosIn($estadosIn)
-	{
-	    $this->estadosIn = $estadosIn;
-	}
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    }
 
-	public function getEstadosNotIn()
-	{
-	    return $this->estadosNotIn;
-	}
+    public function getConcepto()
+    {
+        return $this->concepto;
+    }
 
-	public function setEstadosNotIn($estadosNotIn)
-	{
-	    $this->estadosNotIn = $estadosNotIn;
-	}
+    public function setConcepto($concepto)
+    {
+        $this->concepto = $concepto;
+    }
+
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+    }
+
+    public function getEstadosIn()
+    {
+        return $this->estadosIn;
+    }
+
+    public function setEstadosIn($estadosIn)
+    {
+        $this->estadosIn = $estadosIn;
+    }
+
+    public function getEstadosNotIn()
+    {
+        return $this->estadosNotIn;
+    }
+
+    public function setEstadosNotIn($estadosNotIn)
+    {
+        $this->estadosNotIn = $estadosNotIn;
+    }
 }
