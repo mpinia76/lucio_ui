@@ -165,7 +165,7 @@ function detalleChange(){
 function agregarDetalle(){
 
 	$precio = $("#detallePrecio").val() ;
-	$costo = $("#detalleCosto").val() ;
+	$costo = ($("#detalleCosto").val())? $("#detalleCosto").val():0;
 	$cantidad = $("#detalleCantidad").val() ;
 	$subtotal = $precio * $cantidad;
 	$producto = $("#detalleProducto").val() ;
@@ -173,6 +173,8 @@ function agregarDetalle(){
 	if( $producto<=0)
 		return;
 
+    if( !$precio)
+        return;
 	$.ajax({
 	  	url: "{linkAgregarDetalle}",
 	  	type: "POST",
@@ -250,6 +252,8 @@ function consultarStockDetalle(){
 
 	if( $producto<=0)
 		return;
+    if( !$precio)
+        return;
 
 	$.ajax({
 	  	url: "{linkConsultarStockDetalle}",

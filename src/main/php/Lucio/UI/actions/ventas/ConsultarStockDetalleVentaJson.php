@@ -89,9 +89,9 @@ class ConsultarStockDetalleVentaJson extends JsonAction{
                 Logger::log("Actual ".$oProducto->getStock()." vender ".$result['cantidad']);
 
                 $hayStock = ($oProducto->getStock()<$result["cantidad"])?'NO':'SI';
-                $result["hayStock"] = $hayStock;
-            }
 
+            }
+            $result["hayStock"] = $hayStock;
 
 		} catch (RastyException $e) {
 
